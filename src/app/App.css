@@ -1,0 +1,39 @@
+body {
+  background-color: #282c34;
+  color: #ddd;
+  font-size: 24px;
+}
+
+.App h2 {
+  text-align: center;
+}
+
+.buttons {
+  padding: 1.5em;
+}
+
+button {
+  margin: 1em;
+  padding: 0.5em 1em;
+  color: #eee;
+  background-color: #359;
+  border: none;
+  border-radius: 0.3em;
+  font-weight: bold;
+}
+
+.textHolder {
+  padding: 3em;
+  display: flex;
+  flex-direction: column;
+  width: min-content;
+}
+.label {
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 0.5em;
+}
+textarea {
+  width: 30em;
+  height: 20em;
+}
