@@ -28,6 +28,7 @@ function diff(A) {
 }
 
 
+
 function readJsonFile(jsonFile) {
   var reader = new FileReader();
   reader.addEventListener('load', (loadEvent) => {
@@ -56,6 +57,8 @@ function readJsonFile(jsonFile) {
       var concat_messages = [];
       var block_nodes = [];
       var sentiment = [];
+      var previous_message = [];
+      var edges = [];
       var i;
       var j;
       for (i = 0; i < indices.length-1; i++){
@@ -72,27 +75,42 @@ function readJsonFile(jsonFile) {
             if (("content" in json.messages[j]) ){
             concat_messages[i] = json.messages[j].content;}
             else {
-            concat_messages[i] = "";
+            concat_messages[i] = ", ";
 
             }
           } else {
             if (("content" in json.messages[j]) ){
-            concat_messages[i]= concat_messages[i].concat('.',json.messages[j].content);}
+            concat_messages[i]= concat_messages[i].concat(', ',json.messages[j].content);}
             else{
-              concat_messages[i]= concat_messages[i].concat('.');
+              concat_messages[i]= concat_messages[i].concat(', ');
             }
           }
         }
         console.log(concat_messages[i])
-        block_nodes[i] = tagger.tag(tokenizer.tokenize(concat_messages[i])).taggedWords.filter(x => ['NN','NNP','NNPS','NNS'].indexOf(x.tag) >= 0).map(x => x.token).filter(x => ['I'].indexOf(x) < 0)
+        block_nodes[i] = tagger.tag(tokenizer.tokenize(concat_messages[i])).taggedWords.filter(x => ['NN','NNP','NNPS','NNS'].indexOf(x.tag) >= 0).map(x => x.token).filter(y => y.length > 2)
         sentiment[i] = analyzer.getSentiment(tokenizer.tokenize(concat_messages[i]));
         console.log(block_nodes[i])
         console.log(sentiment[i])
+
+        edges.push(block_nodes[i].flatMap(
+          (v, k) => block_nodes[i].slice(k+1).map( w => v + ' ' + w )
+      ));
+        
+
+        if (i > 0) {
+          previous_message = block_nodes[i-1];
+          edges.push([].concat.apply([],block_nodes[i].map(x => [].concat.apply([],previous_message.map(y=> y + ' ' + x)))))
+
+        }
+        console.log(edges)
+
         
       }
       console.log(concat_messages)
+      console.log(block_nodes)
       console.log(block_nodes.join('.'))
       console.log(sentiment)
+      console.log(edges)
     } catch (error) {
       console.error(error);
     }
