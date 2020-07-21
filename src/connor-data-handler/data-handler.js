@@ -1,15 +1,19 @@
 import React, { useState } from "react";
 import "./data-handler.css";
-import FileInput from "./file-input";
+import FileInput from "./File-Input";
 import readFile from "./easy-read-file";
 import { parseFBMessageData } from "./fb-messages-parser";
 import { nodesAndConnections } from "./build-connections";
 
 const Handler = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
+  // String value of selected file
+  let selectedFile = null;
+  const setSelectedFile = (newVal) => (selectedFile = newVal);
+
   const [errMessage, setErr] = useState("");
-  let parsedData;
+
   const test = () => console.log(selectedFile);
+
   const loadTestData = () =>
     readFile(process.env.PUBLIC_URL + "/message_history.json").then((res) => {
       setSelectedFile(res);
@@ -24,6 +28,11 @@ const Handler = () => {
       setErr("");
       const parsedData = JSON.parse(selectedFile);
       const messagesParsed = parseFBMessageData(parsedData);
+      console.log("\n\n%cAll Messages !\n", "color: yellow");
+      console.log(messagesParsed);
+
+      console.log("\n\n%cMessages with no nouns!\n", "color: yellow");
+      console.log(messagesParsed.filter((m) => !m.nouns.length));
 
       const [nodes, connections] = nodesAndConnections(
         messagesParsed.map((m) => m.nouns)

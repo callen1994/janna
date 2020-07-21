@@ -18,11 +18,12 @@ function makePair(node1, node2) {
 // that show up in the same group and that show up in adjacent groups
 export function nodesAndConnections(nodeGroups) {
   const uniqueNodes = nodeGroups.flat().filter(onlyUnique);
+
   const connections = nodeGroups.reduce(
     (bigAccumulator, currentGroup, messIndex, messGrouped) => {
       // Identify connections among nound within the message
-      const connsWithin = currentGroup.reduce((acc, curr, i, src) => {
-        const subsequentNodes = src.slice(i + 1, src.length);
+      const connsWithin = currentGroup.reduce((acc, curr, i) => {
+        const subsequentNodes = currentGroup.slice(i + 1, currentGroup.length);
         return acc.concat(subsequentNodes.map((n) => makePair(n, curr)));
       }, []);
 
@@ -48,5 +49,14 @@ export function nodesAndConnections(nodeGroups) {
       weight: connections.filter((conn) => conn.id === id).length,
     }));
 
-  return [uniqueNodes, weighted];
+  console.log(
+    weighted.filter(
+      (w) =>
+        w.id === "Connor,Sweet" ||
+        w.id === "Connor,sweet" ||
+        w.id === "connor,sweet"
+    )
+  );
+
+  return [uniqueNodes, weighted.sort((w1, w2) => w2.weight - w1.weight)];
 }

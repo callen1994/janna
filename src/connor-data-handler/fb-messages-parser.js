@@ -1,4 +1,4 @@
-import { getNounList } from "./natural-tools";
+import { getNounList, tagAllWords } from "./natural-tools";
 
 export function parseFBMessageData(jsonData) {
   // After a little testing it's clear the messages are already sorted from newest to oldest
@@ -7,6 +7,7 @@ export function parseFBMessageData(jsonData) {
     .filter((mess) => mess.content)
     .reduce((acc, current) => {
       const prev = acc[acc.length - 1];
+
       // If we have a previous message and that previous message is from the same sender
       // add the content of this message to that message
       // otherwise push the current message onto the end of the accumulator
@@ -16,12 +17,22 @@ export function parseFBMessageData(jsonData) {
             content: prev.content + ". " + current.content,
           })
         : acc.push(current);
+
       return acc;
     }, []);
 
   // Creates a new field on each message group of the nouns in that group
-  messagesGrouped.map((mess) => (mess.nouns = getNounList(mess.content)));
+
+  // Do do sentiment analysis we need to think about separating the message into sentinces
+  // during this tokenizing process
+  messagesGrouped.map((mess) => {
+    mess.nouns = getNounList(mess.content);
+    mess.tokens = tagAllWords(mess.content);
+  });
+
   // Replace "I" with the name of the sender
+  // also look into replacing "you"
+
   messagesGrouped.map(
     (mess) =>
       (mess.nouns = (mess.nouns || []).map((n) =>
