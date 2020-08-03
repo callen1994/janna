@@ -16,7 +16,7 @@ function makePair(node1, node2) {
 
 // node groups is a list of node groups. I'm creating an edge among all nodes
 // that show up in the same group and that show up in adjacent groups
-export function nodesAndConnections(nodeGroups) {
+export function nodulateNodeGroups(nodeGroups) {
   const uniqueNodes = nodeGroups.flat().filter(onlyUnique);
 
   const connections = nodeGroups.reduce(
@@ -48,15 +48,6 @@ export function nodesAndConnections(nodeGroups) {
       ...connections.find((conn) => conn.id === id),
       weight: connections.filter((conn) => conn.id === id).length,
     }));
-
-  console.log(
-    weighted.filter(
-      (w) =>
-        w.id === "Connor,Sweet" ||
-        w.id === "Connor,sweet" ||
-        w.id === "connor,sweet"
-    )
-  );
 
   return [uniqueNodes, weighted.sort((w1, w2) => w2.weight - w1.weight)];
 }

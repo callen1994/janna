@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const FileInput = (props) => {
+  // eslint-disable-next-line no-unused-vars
   let [doneMessage, doneSetter] = useState("Choose a file");
 
   const openFileInput = () => document.getElementById("fileInput").click();
@@ -22,7 +23,6 @@ const FileInput = (props) => {
         id="fileInput"
         type="file"
       />
-      <h4>{doneMessage}</h4>
     </span>
   );
 };

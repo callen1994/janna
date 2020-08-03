@@ -1,0 +1,27 @@
+.connections-container {
+  display: flex;
+  padding: 1em 0;
+  overflow: hidden;
+  height: calc(100% - 1em);
+}
+
+.node-display {
+  flex: 1;
+}
+
+.edge-display {
+  flex: 2;
+  margin-left: 0.5em;
+  border-left: 1px solid #888;
+  padding-left: 0.5em;
+}
+
+.node-display,
+.edge-display {
+  height: 100%;
+  overflow: scroll;
+}
+
+.node-display > button {
+  display: block;
+}

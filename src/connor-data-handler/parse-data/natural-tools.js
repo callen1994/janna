@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   BrillPOSTagger,
   RuleSet,
@@ -28,12 +29,14 @@ export const tagger = new BrillPOSTagger(
   new Lexicon(language, defaultCategory, defaultCategoryCapitalized),
   new RuleSet("EN")
 );
+
 export const tagAllWords = (content) => {
   return sentenceTokenizer
     .tokenize(content + ".")
     .map((sen) => taggedSetnenceWords(sen).taggedWords)
     .flat();
 };
+
 export const taggedSetnenceWords = (content) =>
   tagger.tag(treeWordTokenizer.tokenize(content));
 

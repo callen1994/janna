@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./connor-data-handler/data-handler";
+import App from "./connor-data-handler/Data-Handler";
 // import App from "./transcription/Transcribe";
 import * as serviceWorker from "./serviceWorker";
 

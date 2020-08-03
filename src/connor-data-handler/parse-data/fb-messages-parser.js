@@ -25,14 +25,13 @@ export function parseFBMessageData(jsonData) {
 
   // Do do sentiment analysis we need to think about separating the message into sentinces
   // during this tokenizing process
-  messagesGrouped.map((mess) => {
+  messagesGrouped.forEach((mess) => {
     mess.nouns = getNounList(mess.content);
     mess.tokens = tagAllWords(mess.content);
   });
 
   // Replace "I" with the name of the sender
   // also look into replacing "you"
-
   messagesGrouped.map(
     (mess) =>
       (mess.nouns = (mess.nouns || []).map((n) =>
